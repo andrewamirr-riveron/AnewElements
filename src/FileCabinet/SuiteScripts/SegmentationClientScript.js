@@ -12,7 +12,7 @@ function(record, search) {
       var fieldId = 'department';
       var classFieldId = 'class';
   
-      if ((sublistId === 'line' || sublistId === 'item' || sublistId === 'expense' ) && context.fieldId === fieldId) {
+      if ((sublistId === 'line' || sublistId === 'expense' ) && context.fieldId === fieldId) {
         var departmentId = currentRecord.getCurrentSublistValue({
           sublistId: sublistId,
           fieldId: fieldId
@@ -30,7 +30,7 @@ function(record, search) {
     }
   
     function getClassFromDepartment(departmentId) {
-        var classId;
+        var classId;  
         var searchResults = search.create({
           type: search.Type.DEPARTMENT,
           filters: [{
@@ -57,8 +57,10 @@ function(record, search) {
 
       function saveRecord(context) {
         var currentRecord = context.currentRecord;
-        var sublistIds = ['line', 'item', 'expense'];
+        var sublistIds = ['line', 'expense'];
         var classFieldId = 'class';
+
+        if(currentRecord.getValue({fieldId: 'createdfrom'}) == null) {
       
         for (var s = 0; s < sublistIds.length; s++) {
           var sublistId = sublistIds[s];
@@ -73,6 +75,7 @@ function(record, search) {
             }
           }
         }
+    }
         return true;
       }
   
